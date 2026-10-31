@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-09-25T09:20:56.335791+00:00",
+  "test_cycles": 20,
+  "total_operations": 120,
+  "successful_operations": 120,
+  "failed_operations": 0,
+  "success_rate": 100.0,
+  "categories": {
+    "availability_before_booking": {
+      "passed": 20,
+      "total": 20,
+      "success_rate": 100.0
+    },
+    "booking_creation": {
+      "passed": 20,
+      "total": 20,
+      "success_rate": 100.0
+    },
+    "booking_extension": {
+      "passed": 20,
+      "total": 20,
+      "success_rate": 100.0
+    },
+    "booking_cancellation": {
+      "passed": 20,
+      "total": 20,
+      "success_rate": 100.0
+    },
+    "availability_after_cancellation": {
+      "passed": 20,
+      "total": 20,
+      "success_rate": 100.0
+    },
+    "service_request": {
+      "passed": 20,
+      "total": 20,
+      "success_rate": 100.0
+    }
+  },
+  "failures": []
+}

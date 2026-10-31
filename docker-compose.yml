@@ -1,0 +1,42 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: staymate
+      POSTGRES_USER: staymate
+      POSTGRES_PASSWORD: staymate
+    ports:
+      - "5432:5432"
+    volumes:
+      - staymate_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U staymate -d staymate"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+psycopg://staymate:staymate@db:5432/staymate
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./knowledge:/knowledge:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_URL: http://localhost:8000/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  staymate_db:

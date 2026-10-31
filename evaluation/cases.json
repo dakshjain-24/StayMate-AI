@@ -1,0 +1,543 @@
+{
+  "intent_cases": [
+    {
+      "query": "What time does breakfast end?",
+      "expected": "faq"
+    },
+    {
+      "query": "Can you tell me the hotel check-out time?",
+      "expected": "faq"
+    },
+    {
+      "query": "Do you have free Wi-Fi in the rooms?",
+      "expected": "faq"
+    },
+    {
+      "query": "What are the gym opening hours?",
+      "expected": "faq"
+    },
+    {
+      "query": "Are pets allowed in guest rooms?",
+      "expected": "faq"
+    },
+    {
+      "query": "What is your cancellation policy?",
+      "expected": "faq"
+    },
+    {
+      "query": "Can I leave my luggage after check-out?",
+      "expected": "faq"
+    },
+    {
+      "query": "Do you serve vegan food through room service?",
+      "expected": "faq"
+    },
+
+    {
+      "query": "Do you have a deluxe room from 2026-11-10 to 2026-11-12?",
+      "expected": "availability"
+    },
+    {
+      "query": "Is any suite free from 2026-12-01 to 2026-12-03?",
+      "expected": "availability"
+    },
+    {
+      "query": "Can I get a standard room for 2026-11-20 to 2026-11-22?",
+      "expected": "availability"
+    },
+    {
+      "query": "Any deluxe rooms available from 2027-01-05 to 2027-01-08?",
+      "expected": "availability"
+    },
+    {
+      "query": "I need a suite from 2027-02-10 to 2027-02-12. Is one available?",
+      "expected": "availability"
+    },
+    {
+      "query": "Got any standard rooms free between 2027-03-01 and 2027-03-03?",
+      "expected": "availability"
+    },
+    {
+      "query": "Could you check deluxe room availability for 2027-04-14 to 2027-04-16?",
+      "expected": "availability"
+    },
+    {
+      "query": "Are there suites available for a two-night stay from 2027-05-20 to 2027-05-22?",
+      "expected": "availability"
+    },
+
+    {
+      "query": "Book a deluxe room for me from 2026-11-10 to 2026-11-12.",
+      "expected": "booking"
+    },
+    {
+      "query": "I want to cancel booking 14.",
+      "expected": "booking"
+    },
+    {
+      "query": "Extend booking 4 until 2026-11-15.",
+      "expected": "booking"
+    },
+    {
+      "query": "Please cancel my reservation. My booking ID is 8.",
+      "expected": "booking"
+    },
+    {
+      "query": "I want to stay one more night on booking 7.",
+      "expected": "booking"
+    },
+    {
+      "query": "Reserve a suite for Daksh Jain from 2027-01-10 to 2027-01-12.",
+      "expected": "booking"
+    },
+    {
+      "query": "Can you extend reservation 21 to 2027-02-18?",
+      "expected": "booking"
+    },
+    {
+      "query": "Please book the available standard room for me.",
+      "expected": "booking"
+    },
+
+    {
+      "query": "Can you send two towels to room 301?",
+      "expected": "service"
+    },
+    {
+      "query": "The AC in room 302 is not cooling.",
+      "expected": "service"
+    },
+    {
+      "query": "Please send an extra blanket to room 401.",
+      "expected": "service"
+    },
+    {
+      "query": "The bathroom tap is leaking in room 201.",
+      "expected": "service"
+    },
+    {
+      "query": "Housekeeping hasn't cleaned room 303 yet.",
+      "expected": "service"
+    },
+    {
+      "query": "Please send a dental kit to room 202.",
+      "expected": "service"
+    },
+    {
+      "query": "The television in room 301 is not working.",
+      "expected": "service"
+    },
+    {
+      "query": "Could someone collect the used room-service tray from room 402?",
+      "expected": "service"
+    },
+
+    {
+      "query": "Hi, how are you?",
+      "expected": "general"
+    },
+    {
+      "query": "Thanks, that is all.",
+      "expected": "general"
+    },
+    {
+      "query": "Good morning!",
+      "expected": "general"
+    },
+    {
+      "query": "Okay, sounds good.",
+      "expected": "general"
+    },
+    {
+      "query": "Who are you?",
+      "expected": "general"
+    },
+    {
+      "query": "Great, thank you for the help.",
+      "expected": "general"
+    },
+    {
+      "query": "Hello there.",
+      "expected": "general"
+    },
+    {
+      "query": "Have a nice day!",
+      "expected": "general"
+    }
+  ],
+
+  "rag_cases": [
+    {
+      "query": "What time do I need to check out?",
+      "expected_source": "room_policies.md"
+    },
+    {
+      "query": "Can I request a late checkout?",
+      "expected_source": "room_policies.md"
+    },
+    {
+      "query": "Are visitors allowed in guest rooms?",
+      "expected_source": "room_policies.md"
+    },
+    {
+      "query": "Is smoking allowed inside the room?",
+      "expected_source": "room_policies.md"
+    },
+    {
+      "query": "How many people can stay in a deluxe room?",
+      "expected_source": "room_policies.md"
+    },
+    {
+      "query": "What happens if I lose my room key?",
+      "expected_source": "room_policies.md"
+    },
+
+    {
+      "query": "What is the free cancellation deadline?",
+      "expected_source": "cancellation_policy.md"
+    },
+    {
+      "query": "What happens if I cancel on the day of check-in?",
+      "expected_source": "cancellation_policy.md"
+    },
+    {
+      "query": "How long does a refund usually take?",
+      "expected_source": "cancellation_policy.md"
+    },
+    {
+      "query": "What happens if I do not show up for my booking?",
+      "expected_source": "cancellation_policy.md"
+    },
+    {
+      "query": "Can I get a refund on a non-refundable rate?",
+      "expected_source": "cancellation_policy.md"
+    },
+
+    {
+      "query": "Is Wi-Fi complimentary?",
+      "expected_source": "amenities.md"
+    },
+    {
+      "query": "Can I store my luggage after checkout?",
+      "expected_source": "amenities.md"
+    },
+    {
+      "query": "Do rooms have a digital safe?",
+      "expected_source": "amenities.md"
+    },
+    {
+      "query": "Is laundry service available?",
+      "expected_source": "amenities.md"
+    },
+    {
+      "query": "Does the hotel have a business centre?",
+      "expected_source": "amenities.md"
+    },
+
+    {
+      "query": "Until what time can I order room service?",
+      "expected_source": "room_service.md"
+    },
+    {
+      "query": "How long does room-service delivery usually take?",
+      "expected_source": "room_service.md"
+    },
+    {
+      "query": "Can room service prepare vegan food?",
+      "expected_source": "room_service.md"
+    },
+    {
+      "query": "Can I request mild spice in my food?",
+      "expected_source": "room_service.md"
+    },
+    {
+      "query": "What should I do if the wrong room-service item is delivered?",
+      "expected_source": "room_service.md"
+    },
+
+    {
+      "query": "Can housekeeping bring extra towels?",
+      "expected_source": "housekeeping.md"
+    },
+    {
+      "query": "Can I ask for an extra blanket?",
+      "expected_source": "housekeeping.md"
+    },
+    {
+      "query": "When are rooms normally cleaned?",
+      "expected_source": "housekeeping.md"
+    },
+    {
+      "query": "How long does the hotel keep lost and found items?",
+      "expected_source": "housekeeping.md"
+    },
+
+    {
+      "query": "What time does the spa close?",
+      "expected_source": "spa_gym_pool.md"
+    },
+    {
+      "query": "What are the gym hours?",
+      "expected_source": "spa_gym_pool.md"
+    },
+    {
+      "query": "When does the swimming pool close?",
+      "expected_source": "spa_gym_pool.md"
+    },
+    {
+      "query": "How much notice do I need to cancel a spa appointment?",
+      "expected_source": "spa_gym_pool.md"
+    },
+
+    {
+      "query": "Is parking free for registered hotel guests?",
+      "expected_source": "parking_transport.md"
+    },
+    {
+      "query": "Can the hotel arrange an airport transfer?",
+      "expected_source": "parking_transport.md"
+    },
+    {
+      "query": "Can you arrange a transfer to Varanasi Junction?",
+      "expected_source": "parking_transport.md"
+    },
+    {
+      "query": "Can the front desk help me get a local taxi?",
+      "expected_source": "parking_transport.md"
+    },
+
+    {
+      "query": "Tell me about Dashashwamedh Ghat.",
+      "expected_source": "local_attractions.md"
+    },
+    {
+      "query": "What should I know before visiting Sarnath?",
+      "expected_source": "local_attractions.md"
+    },
+    {
+      "query": "Can I take a boat ride on the Ganga?",
+      "expected_source": "local_attractions.md"
+    },
+    {
+      "query": "What should I know about visiting the old city on foot?",
+      "expected_source": "local_attractions.md"
+    },
+
+    {
+      "query": "Can the hotel arrange a doctor?",
+      "expected_source": "guest_services.md"
+    },
+    {
+      "query": "Can I request a wake-up call?",
+      "expected_source": "guest_services.md"
+    },
+    {
+      "query": "Can the front desk print a document for me?",
+      "expected_source": "guest_services.md"
+    },
+    {
+      "query": "Can the hotel arrange a birthday cake or decorations?",
+      "expected_source": "guest_services.md"
+    },
+
+    {
+      "query": "What should I do if the fire alarm sounds?",
+      "expected_source": "emergency_information.md"
+    },
+    {
+      "query": "What should I do in a medical emergency?",
+      "expected_source": "emergency_information.md"
+    },
+    {
+      "query": "What should I do if there is a security concern at the hotel?",
+      "expected_source": "emergency_information.md"
+    },
+    {
+      "query": "What should I do during a severe power outage?",
+      "expected_source": "emergency_information.md"
+    },
+
+    {
+      "query": "Can I order paneer tikka?",
+      "expected_source": "menu.md"
+    },
+    {
+      "query": "Can you show me the food menu?",
+      "expected_source": "menu.md"
+    },
+    {
+      "query": "What food dishes are available on the menu?",
+      "expected_source": "menu.md"
+    },
+
+    {
+      "query": "What time does breakfast end?",
+      "expected_source": "hotel_faq.md"
+    },
+    {
+      "query": "Does the hotel offer vegetarian breakfast?",
+      "expected_sources": [
+        "hotel_faq.md",
+        "room_service.md"
+      ]
+    }
+  ],
+
+  "tool_cases": [
+    {
+      "query": "Do you have a deluxe room from 2026-11-10 to 2026-11-12?",
+      "workflow": "availability",
+      "expected_tool": "check_room_availability"
+    },
+    {
+      "query": "Is a suite available from 2026-12-01 to 2026-12-03?",
+      "workflow": "availability",
+      "expected_tool": "check_room_availability"
+    },
+    {
+      "query": "Can you check standard room availability from 2027-01-05 to 2027-01-07?",
+      "workflow": "availability",
+      "expected_tool": "check_room_availability"
+    },
+    {
+      "query": "Any deluxe rooms free from 2027-02-10 to 2027-02-12?",
+      "workflow": "availability",
+      "expected_tool": "check_room_availability"
+    },
+    {
+      "query": "I need a suite from 2027-03-15 to 2027-03-18. Is one free?",
+      "workflow": "availability",
+      "expected_tool": "check_room_availability"
+    },
+    {
+      "query": "Are there standard rooms available from 2027-04-01 to 2027-04-03?",
+      "workflow": "availability",
+      "expected_tool": "check_room_availability"
+    },
+
+    {
+      "query": "Book a deluxe room from 2026-11-10 to 2026-11-12 for Daksh Jain, email daksh@example.com. I confirm the booking.",
+      "workflow": "booking",
+      "expected_tool": "check_room_availability"
+    },
+    {
+      "query": "Please reserve a suite from 2027-01-10 to 2027-01-12 for Aman, email aman@example.com. I want to book it.",
+      "workflow": "booking",
+      "expected_tool": "check_room_availability"
+    },
+    {
+      "query": "I want to book a standard room from 2027-02-20 to 2027-02-22 for Riya Shah, riya@example.com.",
+      "workflow": "booking",
+      "expected_tool": "check_room_availability"
+    },
+    {
+      "query": "Confirm a deluxe room for Rahul from 2027-03-05 to 2027-03-07, rahul@example.com.",
+      "workflow": "booking",
+      "expected_tool": "check_room_availability"
+    },
+
+    {
+      "query": "Cancel booking 12. My email is daksh@example.com.",
+      "workflow": "booking",
+      "expected_tool": "cancel_booking"
+    },
+    {
+      "query": "Please cancel reservation 18. The email is aman@example.com.",
+      "workflow": "booking",
+      "expected_tool": "cancel_booking"
+    },
+    {
+      "query": "I want to cancel booking 25, registered under riya@example.com.",
+      "workflow": "booking",
+      "expected_tool": "cancel_booking"
+    },
+    {
+      "query": "Cancel booking ID 31 for rahul@example.com.",
+      "workflow": "booking",
+      "expected_tool": "cancel_booking"
+    },
+
+    {
+      "query": "Extend booking 12 until 2026-11-15. My email is daksh@example.com.",
+      "workflow": "booking",
+      "expected_tool": "extend_booking"
+    },
+    {
+      "query": "Please extend reservation 18 to 2027-01-15. Email: aman@example.com.",
+      "workflow": "booking",
+      "expected_tool": "extend_booking"
+    },
+    {
+      "query": "I want one more night on booking 25. New checkout is 2027-02-23 and my email is riya@example.com.",
+      "workflow": "booking",
+      "expected_tool": "extend_booking"
+    },
+    {
+      "query": "Extend booking 31 until 2027-03-09 for rahul@example.com.",
+      "workflow": "booking",
+      "expected_tool": "extend_booking"
+    },
+
+    {
+      "query": "Please send two towels to room 301.",
+      "workflow": "service",
+      "expected_tool": "create_service_request"
+    },
+    {
+      "query": "The AC in room 302 is not cooling.",
+      "workflow": "service",
+      "expected_tool": "create_service_request"
+    },
+    {
+      "query": "Send an extra blanket to room 401, please.",
+      "workflow": "service",
+      "expected_tool": "create_service_request"
+    },
+    {
+      "query": "The bathroom tap in room 201 is leaking.",
+      "workflow": "service",
+      "expected_tool": "create_service_request"
+    },
+    {
+      "query": "Please send a dental kit to room 202.",
+      "workflow": "service",
+      "expected_tool": "create_service_request"
+    },
+    {
+      "query": "The TV in room 303 is not working. Please send maintenance.",
+      "workflow": "service",
+      "expected_tool": "create_service_request"
+    },
+
+    {
+      "query": "What time does breakfast end?",
+      "workflow": "faq",
+      "expected_tool": "search_hotel_knowledge"
+    },
+    {
+      "query": "Is parking complimentary for guests?",
+      "workflow": "faq",
+      "expected_tool": "search_hotel_knowledge"
+    },
+    {
+      "query": "What are the gym timings?",
+      "workflow": "faq",
+      "expected_tool": "search_hotel_knowledge"
+    },
+    {
+      "query": "What is your cancellation policy?",
+      "workflow": "faq",
+      "expected_tool": "search_hotel_knowledge"
+    },
+    {
+      "query": "Can I get vegan food from room service?",
+      "workflow": "faq",
+      "expected_tool": "search_hotel_knowledge"
+    },
+    {
+      "query": "What should I do if the fire alarm sounds?",
+      "workflow": "faq",
+      "expected_tool": "search_hotel_knowledge"
+    }
+  ]
+}
