@@ -21,14 +21,11 @@ from app.db.session import engine
 import app.models  # noqa: F401
 
 
-# =========================================================
+
 # APP LIFESPAN
-# =========================================================
 
 @asynccontextmanager
-async def lifespan(
-    _: FastAPI,
-):
+async def lifespan(_: FastAPI,):
 
     # Ensure pgvector extension exists.
     with engine.begin() as conn:
@@ -40,16 +37,13 @@ async def lifespan(
         )
 
     # Create any missing SQLAlchemy tables.
-    Base.metadata.create_all(
-        bind=engine
-    )
+    Base.metadata.create_all(bind=engine)
 
     yield
 
 
-# =========================================================
+
 # FASTAPI APP
-# =========================================================
 
 app = FastAPI(
     title=settings.app_name,
@@ -58,9 +52,8 @@ app = FastAPI(
 )
 
 
-# =========================================================
+
 # RATE LIMITER
-# =========================================================
 
 app.state.limiter = limiter
 
@@ -69,44 +62,28 @@ app.add_exception_handler(
     _rate_limit_exceeded_handler,
 )
 
-app.add_middleware(
-    SlowAPIMiddleware
-)
+app.add_middleware(SlowAPIMiddleware)
 
 
-# =========================================================
+
 # CORS
-# =========================================================
 
 app.add_middleware(
     CORSMiddleware,
-
-    allow_origins=[
-        settings.frontend_origin
-    ],
-
+    allow_origins=[settings.frontend_origin],
     allow_credentials=True,
-
-    allow_methods=[
-        "*"
-    ],
-
-    allow_headers=[
-        "*"
-    ],
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
 
-# =========================================================
-# ROUTES
-# =========================================================
 
+# ROUTES
 app.include_router(router)
 
 
-# =========================================================
+
 # ROOT
-# =========================================================
 
 @app.get("/")
 def root():

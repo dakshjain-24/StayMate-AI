@@ -42,13 +42,8 @@ def health():
 
 # PUBLIC CHAT
 # 30 requests / minute / IP
-@router.post(
-    "/chat",
-    response_model=ChatResponse,
-)
-@limiter.limit(
-    "30/minute"
-)
+@router.post("/chat", response_model=ChatResponse)
+@limiter.limit("30/minute")
 def chat(request: Request, payload: ChatRequest):
 
     try:
@@ -74,13 +69,8 @@ def chat(request: Request, payload: ChatRequest):
 # STAFF AUTH
 # 5 attempts / minute / IP
 
-@router.post(
-    "/auth/login",
-    response_model=StaffLoginResponse,
-)
-@limiter.limit(
-    "5/minute"
-)
+@router.post("/auth/login", response_model=StaffLoginResponse)
+@limiter.limit("5/minute")
 def staff_login(request: Request, payload: StaffLoginRequest, db: Session = Depends(get_db)):
 
     staff = authenticate_staff(db, email=str(payload.email), password=payload.password,)
@@ -107,10 +97,7 @@ def staff_login(request: Request, payload: StaffLoginRequest, db: Session = Depe
 
 # CURRENT STAFF USER
 
-@router.get(
-    "/auth/me",
-    response_model=StaffIdentity
-)
+@router.get("/auth/me", response_model=StaffIdentity)
 def staff_me(staff: StaffUser = Depends(get_current_staff)):
 
     return StaffIdentity(
@@ -124,10 +111,7 @@ def staff_me(staff: StaffUser = Depends(get_current_staff)):
 
 # PROTECTED DASHBOARD
 
-@router.get(
-    "/dashboard/stats",
-    response_model=DashboardStats
-)
+@router.get("/dashboard/stats", response_model=DashboardStats)
 def dashboard_stats(db: Session = Depends(get_db), staff: StaffUser = Depends(get_current_staff)):
 
     return get_dashboard_stats(db, staff.hotel_id)
@@ -136,10 +120,7 @@ def dashboard_stats(db: Session = Depends(get_db), staff: StaffUser = Depends(ge
 
 # PROTECTED ROOMS
 
-@router.get(
-    "/rooms",
-    response_model=list[RoomOut],
-)
+@router.get("/rooms", response_model=list[RoomOut])
 def rooms(db: Session = Depends(get_db), staff: StaffUser = Depends(get_current_staff)):
 
     stmt = select(Room).where(Room.hotel_id==staff.hotel_id).order_by(Room.number)
@@ -149,10 +130,7 @@ def rooms(db: Session = Depends(get_db), staff: StaffUser = Depends(get_current_
 
 # PROTECTED BOOKINGS
 
-@router.get(
-    "/bookings",
-    response_model=list[BookingOut],
-)
+@router.get("/bookings", response_model=list[BookingOut])
 def bookings(db: Session = Depends(get_db), staff: StaffUser = Depends(get_current_staff)):
 
     rows = list_bookings(db, staff.hotel_id,)
@@ -176,10 +154,7 @@ def bookings(db: Session = Depends(get_db), staff: StaffUser = Depends(get_curre
 
 # PROTECTED SERVICE REQUESTS
 
-@router.get(
-    "/service-requests",
-    response_model=list[ServiceRequestOut],
-)
+@router.get("/service-requests", response_model=list[ServiceRequestOut])
 def service_requests(db: Session = Depends(get_db), staff: StaffUser = Depends(get_current_staff)):
 
     rows = list_service_requests(db, staff.hotel_id,)
@@ -219,23 +194,13 @@ def service_requests(db: Session = Depends(get_db), staff: StaffUser = Depends(g
 
 
 # PROTECTED STATUS UPDATE
-@router.patch(
-    "/service-requests/"
-    "{request_id}/status",
-    response_model=ServiceRequestOut
-)
-@limiter.limit(
-    "30/minute"
-)
+@router.patch("/service-requests/{request_id}/status", response_model=ServiceRequestOut)
+@limiter.limit("30/minute")
 def update_request_status(
     request: Request,
-
     request_id: int,
-
     payload:ServiceRequestStatusUpdate,
-
     db: Session = Depends(get_db),
-
     staff: StaffUser = Depends(get_current_staff)
 ):
 
