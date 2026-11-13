@@ -5,9 +5,8 @@ import resend
 from app.core.config import settings
 
 
-# =========================================================
+
 # BASE EMAIL SENDER
-# =========================================================
 
 def _send_email(to: str, subject: str, html: str) -> bool:
     """
@@ -211,40 +210,25 @@ def send_booking_creation_otp(
     )
 
 
-# =========================================================
-# CANCEL / EXTEND OTP
-# =========================================================
 
-def send_booking_verification_otp(
-    guest_email: str,
-    otp: str,
-    purpose: str,
-) -> bool:
+# CANCEL / EXTEND OTP
+
+def send_booking_verification_otp(guest_email: str, otp: str, purpose: str) -> bool:
     """
     Send OTP for cancellation or extension.
     """
 
     if purpose == "cancel":
-        action_text = (
-            "cancel your reservation"
-        )
-
-        subject = (
-            "StayMate Cancellation Verification"
-        )
+        action_text = ("cancel your reservation")
+        subject = ("StayMate Cancellation Verification")
 
     else:
-        action_text = (
-            "extend your reservation"
-        )
+        action_text = ("extend your reservation")
 
-        subject = (
-            "StayMate Stay Extension Verification"
-        )
+        subject = ("StayMate Stay Extension Verification")
 
     return _send_email(
         guest_email,
-
         subject,
 
         f"""
@@ -297,17 +281,10 @@ def send_booking_verification_otp(
     )
 
 
-# =========================================================
-# SERVICE REQUEST OTP
-# =========================================================
 
-def send_service_request_otp(
-    guest_email: str,
-    otp: str,
-    request_type: str,
-    room_number: str,
-    description: str,
-) -> bool:
+# SERVICE REQUEST OTP
+
+def send_service_request_otp(guest_email: str, otp: str, request_type: str, room_number: str, description: str) -> bool:
     """
     Send OTP before creating a service request.
     """
@@ -378,91 +355,55 @@ def send_service_request_otp(
     )
 
 
-# =========================================================
-# DEPARTMENT HELPERS
-# =========================================================
 
-def normalize_request_type(
-    request_type: str,
-) -> str:
+# DEPARTMENT HELPERS
+
+def normalize_request_type(request_type: str) -> str:
     """
     Convert request type into a consistent format.
     """
 
-    return (
-        request_type
-        .strip()
-        .lower()
-        .replace("-", "_")
-        .replace(" ", "_")
-    )
+    return request_type.strip().lower().replace("-", "_").replace(" ", "_")
 
 
-def get_department_name(
-    request_type: str,
-) -> str:
+def get_department_name(request_type: str) -> str:
     """
     Return human-readable department name.
     """
 
-    normalized = (
-        normalize_request_type(
-            request_type
-        )
-    )
+    normalized = normalize_request_type(request_type)
+
 
     names = {
-        "housekeeping":
-            "Housekeeping",
-
-        "maintenance":
-            "Maintenance",
-
-        "room_service":
-            "Room Service",
+        "housekeeping": "Housekeeping",
+        "maintenance": "Maintenance",
+        "room_service": "Room Service",
     }
 
-    return names.get(
-        normalized,
-        "Front Desk",
-    )
+    return names.get(normalized, "Front Desk")
 
 
-def get_department_email(
-    request_type: str,
-) -> str | None:
+def get_department_email(request_type: str,) -> str | None:
     """
     Return department notification email
     from application settings.
     """
 
-    normalized = (
-        normalize_request_type(
-            request_type
-        )
-    )
+    normalized = normalize_request_type(request_type)
+
 
     department_emails = {
-        "housekeeping":
-            settings.housekeeping_email,
-
-        "maintenance":
-            settings.maintenance_email,
-
-        "room_service":
-            settings.room_service_email,
+        "housekeeping": settings.housekeeping_email,
+        "maintenance": settings.maintenance_email,
+        "room_service": settings.room_service_email
     }
 
-    recipient = (
-        department_emails.get(
-            normalized
-        )
-    )
+    recipient = department_emails.get(normalized)
+
 
     if not recipient:
-        recipient = (
-            settings.front_desk_email
-        )
+        recipient = settings.front_desk_email
+
 
     if not recipient:
         return None
@@ -470,17 +411,10 @@ def get_department_email(
     return recipient.strip()
 
 
-# =========================================================
-# STAFF SERVICE REQUEST NOTIFICATION
-# =========================================================
 
-def send_service_request_staff_notification(
-    request_id: int,
-    booking_id: int,
-    request_type: str,
-    room_number: str,
-    description: str,
-) -> bool:
+# STAFF SERVICE REQUEST NOTIFICATION
+
+def send_service_request_staff_notification(request_id: int, booking_id: int, request_type: str, room_number: str, description: str) -> bool:
     """
     Notify the appropriate hotel department
     after a verified service request is created.
@@ -489,11 +423,8 @@ def send_service_request_staff_notification(
     or rollback the service request.
     """
 
-    recipient = (
-        get_department_email(
-            request_type
-        )
-    )
+    recipient = get_department_email(request_type)
+    
 
     if not recipient:
         print(
@@ -503,23 +434,14 @@ def send_service_request_staff_notification(
 
         return False
 
-    department = (
-        get_department_name(
-            request_type
-        )
-    )
+    department = get_department_name(request_type)
+    
 
-    safe_department = escape(
-        department
-    )
+    safe_department = escape(department)
 
-    safe_room = escape(
-        str(room_number)
-    )
+    safe_room = escape(str(room_number))
 
-    safe_description = escape(
-        description
-    )
+    safe_description = escape(description)
 
     subject = (
         f"[StayMate] New {department} "
