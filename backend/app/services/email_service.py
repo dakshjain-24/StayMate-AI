@@ -59,11 +59,7 @@ def send_booking_confirmation(
 
     return _send_email(
         guest_email,
-        (
-            "Booking Confirmed - "
-            f"StayMate #{booking_id}"
-        ),
-
+        f"Booking Confirmed - StayMate #{booking_id}",
         f"""
         <div
             style="
@@ -123,22 +119,14 @@ def send_booking_confirmation(
 
 # BOOKING CREATION OTP
 
-def send_booking_creation_otp(
-    guest_email: str,
-    otp: str,
-    room_type: str,
-    check_in,
-    check_out,
-) -> bool:
+def send_booking_creation_otp(guest_email: str, otp: str, room_type: str, check_in, check_out) -> bool:
     """
     Send OTP before creating a new booking.
     """
 
     return _send_email(
         guest_email,
-
         "StayMate Booking Verification",
-
         f"""
         <div
             style="
@@ -224,7 +212,6 @@ def send_booking_verification_otp(guest_email: str, otp: str, purpose: str) -> b
 
     else:
         action_text = ("extend your reservation")
-
         subject = ("StayMate Stay Extension Verification")
 
     return _send_email(
@@ -291,9 +278,7 @@ def send_service_request_otp(guest_email: str, otp: str, request_type: str, room
 
     return _send_email(
         guest_email,
-
         "StayMate Service Request Verification",
-
         f"""
         <div
             style="
@@ -416,21 +401,15 @@ def get_department_email(request_type: str,) -> str | None:
 
 def send_service_request_staff_notification(request_id: int, booking_id: int, request_type: str, room_number: str, description: str) -> bool:
     """
-    Notify the appropriate hotel department
-    after a verified service request is created.
-
-    Failure to send this email does not remove
-    or rollback the service request.
+    Notify the appropriate hotel department after a verified service request is created.
+    Failure to send this email does not remove or rollback the service request.
     """
 
     recipient = get_department_email(request_type)
     
 
     if not recipient:
-        print(
-            "No department email configured "
-            f"for request type: {request_type}"
-        )
+        print(f"No department email configured for request type: {request_type}")
 
         return False
 
@@ -451,9 +430,7 @@ def send_service_request_staff_notification(request_id: int, booking_id: int, re
 
     email_sent = _send_email(
         recipient,
-
         subject,
-
         f"""
         <div
             style="
@@ -535,9 +512,6 @@ def send_service_request_staff_notification(request_id: int, booking_id: int, re
     )
 
     if email_sent:
-        print(
-            f"Department notification sent "
-            f"to {recipient}"
-        )
+        print(f"Department notification sent to {recipient}")
 
     return email_sent
