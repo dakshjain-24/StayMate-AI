@@ -781,21 +781,12 @@ builder.add_edge(START, "classify_intent")
 
 builder.add_conditional_edges("classify_intent", route_intent,
     {
-        "faq":
-            "faq_agent",
-
-        "availability":
-            "availability_agent",
-
-        "booking":
-            "booking_agent",
-
-        "service":
-            "service_agent",
-
-        "general":
-            "general_agent",
-    },
+        "faq": "faq_agent",
+        "availability": "availability_agent",
+        "booking": "booking_agent",
+        "service": "service_agent",
+        "general": "general_agent"
+    }
 )
 
 

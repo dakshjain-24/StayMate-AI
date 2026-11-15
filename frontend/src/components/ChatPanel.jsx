@@ -1,30 +1,12 @@
-import {
-  Bot,
-  CalendarCheck,
-  CheckCircle2,
-  CircleX,
-  Plus,
-  Send,
-  ShieldCheck,
-  Sparkles,
-  User,
-  Wrench,
-} from "lucide-react";
-
-import {
-  useState,
-} from "react";
-
-import {
-  api,
-} from "../services/api";
+import {Bot, CalendarCheck, CheckCircle2, CircleX, Plus, Send, ShieldCheck, Sparkles, User, Wrench} from "lucide-react";
+import {useState} from "react";
+import {api} from "../services/api";
 
 
 const starterMessages = [
   {
     role: "assistant",
-    text:
-      "Hi, I’m StayMate. I can help with rooms, bookings, hotel information, housekeeping, and maintenance requests.",
+    text: "Hi, I’m StayMate. I can help with rooms, bookings, hotel information, housekeeping, and maintenance requests.",
   },
 ];
 
@@ -32,194 +14,93 @@ const starterMessages = [
 const suggestions = [
   {
     label: "Check room availability",
-    message:
-      "Do you have a deluxe room from 2026-10-04 to 2026-10-07?",
+    message: "Do you have a deluxe room from 2026-10-04 to 2026-10-07?",
   },
 
   {
     label: "Breakfast timings",
-    message:
-      "What time does breakfast end?",
+    message: "What time does breakfast end?",
   },
 
   {
     label: "Request housekeeping",
-    message:
-      "Please send two extra towels to my room.",
-  },
+    message: "Please send two extra towels to my room.",
+  }
 ];
 
 
 function detectResponseType(text) {
-  const value =
-    text.toLowerCase();
+  const value = text.toLowerCase();
 
 
-  // =====================================================
   // SERVICE REQUEST OTP
-  // =====================================================
-
   // Must come before the generic OTP detector.
   if (
-    value.includes(
-      "verification code"
-    )
+    value.includes("verification code") 
     &&
-    (
-      value.includes(
-        "service request"
-      )
-      ||
-      value.includes(
-        "service-request"
-      )
-      ||
-      value.includes(
-        "housekeeping"
-      )
-      ||
-      value.includes(
-        "maintenance"
-      )
-      ||
-      value.includes(
-        "room service"
-      )
-      ||
-      value.includes(
-        "room_service"
-      )
-    )
+    (value.includes("service request") || value.includes("service-request") || value.includes("housekeeping") || value.includes("maintenance") || value.includes("room service") || value.includes("room_service")) 
     &&
-    (
-      value.includes(
-        "has been sent"
-      )
-      ||
-      value.includes(
-        "enter the verification code"
-      )
-    )
+    (value.includes("has been sent") || value.includes("enter the verification code"))
   ) {
     return "service_verification";
   }
 
 
-  // =====================================================
+  
   // BOOKING / RESERVATION OTP
-  // =====================================================
-
+  
   if (
-    value.includes(
-      "verification code"
-    )
+    value.includes("verification code") 
     &&
-    (
-      value.includes(
-        "has been sent"
-      )
-      ||
-      value.includes(
-        "code has been sent"
-      )
-      ||
-      value.includes(
-        "enter the verification code"
-      )
-      ||
-      value.includes(
-        "enter the code"
-      )
-    )
+    (value.includes("has been sent") || value.includes("code has been sent") || value.includes("enter the verification code") || value.includes("enter the code"))
   ) {
     return "verification";
   }
 
 
-  // =====================================================
+  
   // BOOKING SUCCESS
-  // =====================================================
-
-  if (
-    value.includes(
-      "booking confirmed"
-    )
-  ) {
+  
+  if (value.includes("booking confirmed")){
     return "booking";
   }
 
 
-  // =====================================================
+  
   // CANCELLATION SUCCESS
-  // =====================================================
-
+  
   if (
     value.includes("cancel")
     &&
-    (
-      value.includes("booking")
-      ||
-      value.includes("reservation")
-    )
+    (value.includes("booking") || value.includes("reservation"))
     &&
-    (
-      value.includes("success")
-      ||
-      value.includes("cancelled")
-      ||
-      value.includes("canceled")
-    )
+    (value.includes("success") || value.includes("cancelled") || value.includes("canceled"))
   ) {
     return "cancelled";
   }
 
 
-  // =====================================================
+  
   // EXTENSION SUCCESS
-  // =====================================================
-
+  
   if (
-    value.includes(
-      "booking"
-    )
+    value.includes("booking")
     &&
-    (
-      value.includes(
-        "has been extended"
-      )
-      ||
-      value.includes(
-        "extended until"
-      )
-    )
+    (value.includes("has been extended") || value.includes("extended until"))
   ) {
     return "extended";
   }
 
 
-  // =====================================================
+  
   // SERVICE REQUEST SUCCESS
-  // =====================================================
-
-  // Be strict here.
-  //
-  // Do NOT classify:
-  // "Service requests can only be created..."
-  //
-  // as a successful request.
 
   if (
-    value.includes(
-      "service request #"
-    )
+    value.includes("service request #")
     &&
-    value.includes(
-      "was created"
-    )
+    value.includes("was created")
     &&
-    value.includes(
-      "sent to the hotel staff"
-    )
+    value.includes("sent to the hotel staff")
   ) {
     return "service";
   }
@@ -230,72 +111,34 @@ function detectResponseType(text) {
 
 
 function extractBookingId(text) {
-  const match =
-    text.match(
-      /booking\s+(?:id\s*:?\s*)?#?(\d+)/i
-    );
-
-  return match
-    ? match[1]
-    : null;
+  const match = text.match(/booking\s+(?:id\s*:?\s*)?#?(\d+)/i);
+  return match ? match[1] : null;
 }
 
 
 function extractAmount(text) {
-  const match =
-    text.match(
-      /₹\s?([\d,]+)/i
-    );
-
-  return match
-    ? `₹${match[1]}`
-    : null;
+  const match = text.match(/₹\s?([\d,]+)/i);
+  return match ? `₹${match[1]}` : null;
 }
 
 
 function extractServiceRequestId(text) {
-  const match =
-    text.match(
-      /service\s+request\s+#(\d+)/i
-    );
-
-  return match
-    ? match[1]
-    : null;
+  const match =text.match(/service\s+request\s+#(\d+)/i);
+  return match ? match[1] : null;
 }
 
 
-function AssistantResponse({
-  text,
-}) {
-  const type =
-    detectResponseType(
-      text
-    );
-
-  const bookingId =
-    extractBookingId(
-      text
-    );
-
-  const amount =
-    extractAmount(
-      text
-    );
-
-  const requestId =
-    extractServiceRequestId(
-      text
-    );
+function AssistantResponse({text}) {
+  const type = detectResponseType(text);
+  const bookingId = extractBookingId(text);
+  const amount = extractAmount(text);
+  const requestId = extractServiceRequestId(text);
 
 
-  // =====================================================
+  
   // NORMAL MESSAGE
-  // =====================================================
-
-  if (
-    type === "normal"
-  ) {
+  
+  if (type === "normal"){
     return (
       <div className="bubble">
         {text}
@@ -304,22 +147,17 @@ function AssistantResponse({
   }
 
 
-  // =====================================================
+  
   // SERVICE REQUEST VERIFICATION
-  // =====================================================
-
-  if (
-    type === "service_verification"
-  ) {
+  
+  if (type === "service_verification") {
     return (
       <div className="response-card service-response verification-response">
 
         <div className="response-card-header">
 
           <div className="response-icon service-icon">
-            <ShieldCheck
-              size={19}
-            />
+            <ShieldCheck size={19}/>
           </div>
 
           <div>
@@ -367,13 +205,10 @@ function AssistantResponse({
   }
 
 
-  // =====================================================
+  
   // RESERVATION VERIFICATION
-  // =====================================================
-
-  if (
-    type === "verification"
-  ) {
+  
+  if (type === "verification") {
     return (
       <div className="response-card booking-response verification-response">
 
@@ -381,9 +216,7 @@ function AssistantResponse({
 
           <div className="response-icon booking-icon">
 
-            <ShieldCheck
-              size={19}
-            />
+            <ShieldCheck size={19}/>
 
           </div>
 
@@ -433,13 +266,10 @@ function AssistantResponse({
   }
 
 
-  // =====================================================
+  
   // BOOKING CREATED
-  // =====================================================
-
-  if (
-    type === "booking"
-  ) {
+  
+  if (type === "booking") {
     return (
       <div className="response-card booking-response">
 
@@ -447,9 +277,7 @@ function AssistantResponse({
 
           <div className="response-icon booking-icon">
 
-            <CalendarCheck
-              size={19}
-            />
+            <CalendarCheck size={19}/>
 
           </div>
 
@@ -467,10 +295,7 @@ function AssistantResponse({
           </div>
 
 
-          <CheckCircle2
-            size={20}
-            className="response-success-icon"
-          />
+          <CheckCircle2 size={20} className="response-success-icon"/>
 
         </div>
 
@@ -526,13 +351,10 @@ function AssistantResponse({
   }
 
 
-  // =====================================================
+  
   // BOOKING CANCELLED
-  // =====================================================
-
-  if (
-    type === "cancelled"
-  ) {
+  
+  if (type === "cancelled") {
     return (
       <div className="response-card cancelled-response">
 
@@ -540,9 +362,7 @@ function AssistantResponse({
 
           <div className="response-icon cancelled-icon">
 
-            <CircleX
-              size={19}
-            />
+            <CircleX size={19}/>
 
           </div>
 
@@ -560,10 +380,7 @@ function AssistantResponse({
           </div>
 
 
-          <CheckCircle2
-            size={20}
-            className="response-success-icon"
-          />
+          <CheckCircle2 size={20} className="response-success-icon"/>
 
         </div>
 
@@ -599,14 +416,10 @@ function AssistantResponse({
     );
   }
 
-
-  // =====================================================
+  
   // BOOKING EXTENDED
-  // =====================================================
 
-  if (
-    type === "extended"
-  ) {
+  if (type === "extended") {
     return (
       <div className="response-card extended-response">
 
@@ -614,9 +427,7 @@ function AssistantResponse({
 
           <div className="response-icon extended-icon">
 
-            <CalendarCheck
-              size={19}
-            />
+            <CalendarCheck size={19} />
 
           </div>
 
@@ -634,10 +445,7 @@ function AssistantResponse({
           </div>
 
 
-          <CheckCircle2
-            size={20}
-            className="response-success-icon"
-          />
+          <CheckCircle2 size={20} className="response-success-icon"/>
 
         </div>
 
@@ -693,13 +501,10 @@ function AssistantResponse({
   }
 
 
-  // =====================================================
+  
   // SERVICE REQUEST CREATED
-  // =====================================================
-
-  if (
-    type === "service"
-  ) {
+  
+  if (type === "service") {
     return (
       <div className="response-card service-response">
 
@@ -707,9 +512,7 @@ function AssistantResponse({
 
           <div className="response-icon service-icon">
 
-            <Wrench
-              size={19}
-            />
+            <Wrench size={19}/>
 
           </div>
 
@@ -727,10 +530,7 @@ function AssistantResponse({
           </div>
 
 
-          <CheckCircle2
-            size={20}
-            className="response-success-icon"
-          />
+          <CheckCircle2 size={20} className="response-success-icon"/>
 
         </div>
 
@@ -777,51 +577,22 @@ function AssistantResponse({
 
 export default function ChatPanel() {
 
-  const [
-    messages,
-    setMessages,
-  ] = useState(
-    starterMessages
-  );
+  const [messages, setMessages] = useState(starterMessages);
+
+  const [input, setInput] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const [threadId, setThreadId] = useState(() => crypto.randomUUID());
 
 
-  const [
-    input,
-    setInput,
-  ] = useState("");
-
-
-  const [
-    loading,
-    setLoading,
-  ] = useState(false);
-
-
-  const [
-    threadId,
-    setThreadId,
-  ] = useState(
-    () =>
-      crypto.randomUUID()
-  );
-
-
-  async function sendMessage(
-    event
-  ) {
+  async function sendMessage(event) {
 
     event.preventDefault();
 
+    const text = input.trim();
 
-    const text =
-      input.trim();
-
-
-    if (
-      !text
-      ||
-      loading
-    ) {
+    if (!text || loading) {
       return;
     }
 
@@ -829,7 +600,6 @@ export default function ChatPanel() {
     setMessages(
       (current) => [
         ...current,
-
         {
           role: "user",
           text,
@@ -845,24 +615,15 @@ export default function ChatPanel() {
 
     try {
 
-      const response =
-        await api.chat(
-          text,
-          threadId
-        );
-
+      const response = await api.chat(text, threadId);
 
       setMessages(
         (current) => [
           ...current,
-
           {
-            role:
-              "assistant",
-
-            text:
-              response.answer,
-          },
+            role: "assistant",
+            text: response.answer,
+          }
         ]
       );
 
@@ -871,48 +632,34 @@ export default function ChatPanel() {
       setMessages(
         (current) => [
           ...current,
-
           {
-            role:
-              "assistant",
+            role: "assistant",
 
-            text:
-              `I couldn't complete that request: ${error.message}`,
-          },
+            text: `I couldn't complete that request: ${error.message}`,
+          }
         ]
       );
 
     } finally {
-
       setLoading(false);
-
     }
   }
 
 
-  function chooseSuggestion(
-    suggestion
-  ) {
-
-    setInput(
-      suggestion.message
-    );
+  function chooseSuggestion(suggestion) {
+    setInput(suggestion.message);
   }
 
 
   function startNewChat() {
 
-    setMessages(
-      starterMessages
-    );
+    setMessages(starterMessages);
 
     setInput("");
 
     setLoading(false);
 
-    setThreadId(
-      crypto.randomUUID()
-    );
+    setThreadId(crypto.randomUUID());
   }
 
 
@@ -948,18 +695,9 @@ export default function ChatPanel() {
           </span>
 
 
-          <button
-            type="button"
-            className="new-chat-button"
-            onClick={
-              startNewChat
-            }
-          >
+          <button type="button" className="new-chat-button" onClick={startNewChat}>
 
-            <Plus
-              size={15}
-            />
-
+            <Plus size={15}/>
             New Chat
 
           </button>
@@ -974,29 +712,13 @@ export default function ChatPanel() {
       <div className="chat-suggestions">
 
         {
-          suggestions.map(
-            (suggestion) => (
+          suggestions.map((suggestion) => (
 
-              <button
-                type="button"
-                key={
-                  suggestion.label
-                }
-                onClick={
-                  () =>
-                    chooseSuggestion(
-                      suggestion
-                    )
-                }
-              >
+              <button type="button" key={suggestion.label} onClick={() => chooseSuggestion(suggestion)}>
 
-                <Sparkles
-                  size={13}
-                />
+                <Sparkles size={13}/>
 
-                {
-                  suggestion.label
-                }
+                {suggestion.label}
 
               </button>
 
@@ -1012,62 +734,27 @@ export default function ChatPanel() {
       <div className="messages">
 
         {
-          messages.map(
-            (
-              message,
-              index
-            ) => (
+          messages.map((message, index) => (
 
-              <div
-                className={
-                  `message ${message.role}`
-                }
-                key={
-                  `${message.role}-${index}`
-                }
-              >
+              <div className={`message ${message.role}`} key={`${message.role}-${index}`}>
 
                 <div className="avatar">
 
-                  {
-                    message.role ===
-                    "assistant"
-                      ? (
-                        <Bot
-                          size={18}
-                        />
-                      )
-                      : (
-                        <User
-                          size={18}
-                        />
-                      )
-                  }
+                  {message.role === "assistant" ? <Bot size={18}/> : <User size={18}/>}
 
                 </div>
 
 
                 {
-                  message.role ===
-                  "assistant"
-                    ? (
-
-                      <AssistantResponse
-                        text={
-                          message.text
-                        }
-                      />
-
-                    )
-                    : (
-
-                      <div className="bubble">
-                        {
-                          message.text
-                        }
-                      </div>
-
-                    )
+                  message.role === "assistant" 
+                  ? 
+                  <AssistantResponse text={message.text}/> 
+                  :
+                  <div className="bubble">
+                    {
+                      message.text
+                    }
+                  </div>
                 }
 
               </div>
@@ -1084,9 +771,7 @@ export default function ChatPanel() {
 
               <div className="avatar">
 
-                <Bot
-                  size={18}
-                />
+                <Bot size={18}/>
 
               </div>
 
@@ -1109,40 +794,13 @@ export default function ChatPanel() {
 
       {/* INPUT */}
 
-      <form
-        className="chat-form"
-        onSubmit={
-          sendMessage
-        }
-      >
+      <form className="chat-form" onSubmit={sendMessage}>
 
-        <input
-          value={
-            input
-          }
-          onChange={
-            (event) =>
-              setInput(
-                event.target.value
-              )
-          }
-          placeholder="Ask about rooms, bookings, hotel services..."
-        />
+        <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask about rooms, bookings, hotel services..."/>
 
+        <button type="submit" disabled={loading || !input.trim()} aria-label="Send message">
 
-        <button
-          type="submit"
-          disabled={
-            loading
-            ||
-            !input.trim()
-          }
-          aria-label="Send message"
-        >
-
-          <Send
-            size={18}
-          />
+          <Send size={18}/>
 
         </button>
 

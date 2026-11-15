@@ -38,9 +38,7 @@
     0 10px 30px rgba(31, 34, 57, 0.06);
 }
 
-/* ========================================
-   RESET
-======================================== */
+/* RESET */
 
 * {
   box-sizing: border-box;
@@ -81,9 +79,7 @@ button {
   cursor: pointer;
 }
 
-/* ========================================
-   APP LAYOUT
-======================================== */
+/* APP LAYOUT */
 
 .app-shell {
   min-height: 100vh;
@@ -94,9 +90,7 @@ button {
     238px minmax(0, 1fr);
 }
 
-/* ========================================
-   SIDEBAR
-======================================== */
+/* SIDEBAR */
 
 .sidebar {
   background:
@@ -159,9 +153,7 @@ button {
   right: -100px;
 }
 
-/* ========================================
-   BRAND
-======================================== */
+/* BRAND */
 
 .brand {
   display: flex;
@@ -224,9 +216,7 @@ button {
   margin-top: 3px;
 }
 
-/* ========================================
-   SIDEBAR NAV
-======================================== */
+/* SIDEBAR NAV */
 
 .sidebar nav {
   display: grid;
@@ -308,9 +298,7 @@ button {
     #bbb5ff;
 }
 
-/* ========================================
-   PROPERTY CARD
-======================================== */
+/* PROPERTY CARD */
 
 .sidebar-note {
   margin-top: auto;
@@ -365,9 +353,7 @@ button {
   font-size: 13px;
 }
 
-/* ========================================
-   MAIN CONTENT
-======================================== */
+/* MAIN CONTENT */
 
 .main-content {
   padding:
@@ -376,9 +362,7 @@ button {
   overflow: hidden;
 }
 
-/* ========================================
-   TOPBAR
-======================================== */
+/* TOPBAR */
 
 .topbar {
   display: flex;
@@ -456,9 +440,7 @@ button {
     var(--shadow);
 }
 
-/* ========================================
-   GENERAL HEADERS
-======================================== */
+/*  GENERAL HEADERS */
 
 .dashboard-title-row,
 .panel-heading {
@@ -498,9 +480,7 @@ h3 {
   font-size: 17px;
 }
 
-/* ========================================
-   BUTTONS
-======================================== */
+/* BUTTONS */
 
 .secondary-button {
   border:
@@ -581,9 +561,7 @@ h3 {
   }
 }
 
-/* ========================================
-   ERROR
-======================================== */
+/* ERROR */
 
 .error-banner {
   margin-bottom: 14px;
@@ -604,9 +582,7 @@ h3 {
     #f2c1bb;
 }
 
-/* ========================================
-   STATS
-======================================== */
+/* STATS */
 
 .stats-grid {
   display: grid;
@@ -786,9 +762,7 @@ h3 {
   font-size: 11px;
 }
 
-/* ========================================
-   DASHBOARD GRID
-======================================== */
+/* DASHBOARD GRID */
 
 .dashboard-grid {
   margin-top: 14px;
@@ -837,9 +811,7 @@ h3 {
     );
 }
 
-/* ========================================
-   BOOKING TABLE
-======================================== */
+/* BOOKING TABLE */
 
 .table-wrap {
   margin-top: 12px;
@@ -921,9 +893,7 @@ td small {
     #9295a4;
 }
 
-/* ========================================
-   BOOKING STATUS
-======================================== */
+/* BOOKING STATUS  */
 
 .table-status,
 .request-status {
@@ -976,9 +946,7 @@ td small {
     #fff5e4;
 }
 
-/* ========================================
-   REQUEST LIST
-======================================== */
+/* REQUEST LIST */
 
 .request-list {
   margin-top: 14px;
@@ -1110,9 +1078,7 @@ td small {
   line-height: 1.45;
 }
 
-/* ========================================
-   REQUEST ACTIONS
-======================================== */
+/* REQUEST ACTIONS */
 
 .request-actions {
   margin-top: 12px;
@@ -1220,9 +1186,7 @@ td small {
   opacity: 0.55;
 }
 
-/* ========================================
-   ROOMS
-======================================== */
+/* ROOMS */
 
 .room-panel {
   margin-top: 14px;
@@ -1374,9 +1338,7 @@ td small {
     var(--coral-light);
 }
 
-/* ========================================
-   EMPTY STATE
-======================================== */
+/* EMPTY STATE */
 
 .empty-state {
   color:
@@ -1385,9 +1347,7 @@ td small {
   font-size: 12px;
 }
 
-/* ========================================
-   CHAT PANEL
-======================================== */
+/* CHAT PANEL */
 
 .chat-panel {
   max-width:
@@ -1443,9 +1403,7 @@ td small {
     );
 }
 
-/* ========================================
-   ONLINE BADGE
-======================================== */
+/* ONLINE BADGE  */
 
 .status-pill {
   padding:
@@ -1493,9 +1451,7 @@ td small {
     );
 }
 
-/* ========================================
-   CHAT SUGGESTIONS
-======================================== */
+/* CHAT SUGGESTIONS */
 
 .chat-suggestions {
   margin-top: 17px;
@@ -1568,9 +1524,7 @@ td small {
     );
 }
 
-/* ========================================
-   CHAT MESSAGES
-======================================== */
+/* CHAT MESSAGES  */
 
 .messages {
   flex: 1;
@@ -1737,9 +1691,7 @@ td small {
     #74708f;
 }
 
-/* ========================================
-   CHAT FORM
-======================================== */
+/* CHAT FORM */
 
 .chat-form {
   padding-top: 16px;
@@ -1864,9 +1816,7 @@ td small {
     0.42;
 }
 
-/* ========================================
-   SCROLLBARS
-======================================== */
+/* SCROLLBARS  */
 
 .request-list::-webkit-scrollbar,
 .messages::-webkit-scrollbar {
@@ -1888,9 +1838,7 @@ td small {
     999px;
 }
 
-/* ========================================
-   RESPONSIVE
-======================================== */
+/* RESPONSIVE */
 
 @media (
   max-width: 1000px
@@ -1999,9 +1947,7 @@ td small {
   }
 }
 
-/* ========================================
-   CHAT HEADER
-======================================== */
+/* CHAT HEADER */
 
 .chat-header {
   display: flex;
@@ -2025,9 +1971,7 @@ td small {
 }
 
 
-/* ========================================
-   NEW CHAT
-======================================== */
+/* NEW CHAT */
 
 .new-chat-button {
   display: inline-flex;
@@ -2065,9 +2009,7 @@ td small {
 }
 
 
-/* ========================================
-   QUICK SUGGESTIONS
-======================================== */
+/* QUICK SUGGESTIONS */
 
 .chat-suggestions button {
   display: inline-flex;
@@ -2076,9 +2018,7 @@ td small {
 }
 
 
-/* ========================================
-   STRUCTURED RESPONSE CARDS
-======================================== */
+/*  STRUCTURED RESPONSE CARDS */
 
 .response-card {
   min-width: 310px;
@@ -2252,9 +2192,7 @@ td small {
 }
 
 
-/* ========================================
-   RESPONSE INFORMATION
-======================================== */
+/* RESPONSE INFORMATION */
 
 .response-card-details {
   margin-top: 14px;
@@ -2321,9 +2259,7 @@ td small {
 }
 
 
-/* ========================================
-   RESPONSE TEXT
-======================================== */
+/* RESPONSE TEXT */
 
 .response-card-text {
   margin:
@@ -2340,9 +2276,7 @@ td small {
 }
 
 
-/* ========================================
-   TYPING INDICATOR
-======================================== */
+/* TYPING INDICATOR */
 
 .typing {
   display: flex;
@@ -2406,9 +2340,7 @@ td small {
 }
 
 
-/* ========================================
-   CHAT MOBILE
-======================================== */
+/* CHAT MOBILE */
 
 @media (max-width: 650px) {
 

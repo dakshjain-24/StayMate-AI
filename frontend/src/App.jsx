@@ -1,59 +1,39 @@
-import {
-  Hotel,
-  LayoutDashboard,
-  LockKeyhole,
-  LogOut,
-  MessageSquareText,
-} from "lucide-react";
-
-import {
-  useEffect,
-  useState,
-} from "react";
-
+import {Hotel, LayoutDashboard, LockKeyhole, LogOut, MessageSquareText} from "lucide-react";
+import {useEffect, useState} from "react";
 import ChatPanel from "./components/ChatPanel";
 import StaffLogin from "./components/StaffLogin";
 import Dashboard from "./pages/Dashboard";
-
-import {
-  api,
-} from "./services/api";
+import {api} from "./services/api";
 
 
 export default function App() {
-  const [
-    view,
-    setView,
-  ] = useState("chat");
+  const [view, setView] = useState("chat");
 
-  const [
-    staff,
-    setStaff,
-  ] = useState(null);
+  const [staff, setStaff] = useState(null);
 
-  const [
-    checkingAuth,
-    setCheckingAuth,
-  ] = useState(true);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
 
-  useEffect(() => {
-    async function restoreSession() {
+  useEffect(() => {async function restoreSession() {
       if (!api.getAuthToken()) {
         setCheckingAuth(false);
         return;
       }
 
       try {
-        const staffData =
-          await api.me();
 
+        const staffData = await api.me();
         setStaff(staffData);
+
       } catch {
+
         api.clearAuthToken();
+        
         setStaff(null);
       } finally {
+        
         setCheckingAuth(false);
+
       }
     }
 
@@ -61,9 +41,7 @@ export default function App() {
   }, []);
 
 
-  function handleStaffLogin(
-    staffData
-  ) {
+  function handleStaffLogin(staffData) {
     setStaff(staffData);
     setView("dashboard");
   }
@@ -142,63 +120,22 @@ export default function App() {
               setView("chat")
             }
           >
-            <MessageSquareText
-              size={18}
-            />
+            <MessageSquareText size={18}/>
 
             AI Receptionist
           </button>
 
 
-          <button
-            className={
-              (
-                view === "dashboard"
-                ||
-                view === "staff-login"
-              )
-                ? "active"
-                : ""
-            }
-            onClick={
-              openDashboard
-            }
-          >
-
-            {
-              staff
-                ? (
-                  <LayoutDashboard
-                    size={18}
-                  />
-                )
-                : (
-                  <LockKeyhole
-                    size={18}
-                  />
-                )
-            }
-
-            {
-              staff
-                ? "Staff Dashboard"
-                : "Staff Login"
-            }
-
+          <button className={(view === "dashboard" || view === "staff-login") ? "active" : ""} onClick={openDashboard}>
+            {staff ? <LayoutDashboard size={18}/> : <LockKeyhole size={18}/>}
+            {staff ? "Staff Dashboard" : "Staff Login"}
           </button>
 
 
           {
             staff && (
-              <button
-                onClick={
-                  logout
-                }
-              >
-                <LogOut
-                  size={18}
-                />
-
+              <button onClick={logout}>
+                <LogOut size={18}/>
                 Sign out
               </button>
             )
@@ -231,63 +168,25 @@ export default function App() {
         <header className="topbar">
 
           <div>
-
             <span className="eyebrow">
               Agentic hotel operations assistant
             </span>
 
             <h1>
-              {
-                view === "dashboard"
-                  ? "Staff Dashboard"
-                  : view === "staff-login"
-                    ? "Staff Access"
-                    : "AI Receptionist"
-              }
+              {view === "dashboard" ? "Staff Dashboard" : view === "staff-login" ? "Staff Access" : "AI Receptionist"}
             </h1>
-
           </div>
 
 
           <div className="profile">
-            {
-              staff
-                ? (
-                  staff.name
-                    ?.charAt(0)
-                    ?.toUpperCase()
-                  || "S"
-                )
-                : "AI"
-            }
+            {staff ? staff.name ?.charAt(0)?.toUpperCase() || "S" : "AI"}
           </div>
 
         </header>
 
 
-        {
-          view === "dashboard"
-          && staff
-            ? (
-              <Dashboard />
-            )
-
-            : view === "staff-login"
-              ? (
-                <StaffLogin
-                  onLogin={
-                    handleStaffLogin
-                  }
-                />
-              )
-
-              : (
-                <ChatPanel />
-              )
-        }
-
+        {view === "dashboard" && staff ? <Dashboard /> : view === "staff-login" ? <StaffLogin onLogin={handleStaffLogin}/> : <ChatPanel />}
       </main>
-
     </div>
   );
 }

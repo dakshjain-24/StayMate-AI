@@ -1,47 +1,20 @@
-import {
-  LockKeyhole,
-} from "lucide-react";
-
-import {
-  useState,
-} from "react";
-
-import {
-  api,
-} from "../services/api";
+import {LockKeyhole} from "lucide-react";
+import {useState} from "react";
+import {api} from "../services/api";
 
 
-export default function StaffLogin({
-  onLogin,
-}) {
+export default function StaffLogin({onLogin}) {
 
-  const [
-    email,
-    setEmail,
-  ] = useState("");
+  const [email, setEmail] = useState("");
 
+  const [password, setPassword] = useState("");
 
-  const [
-    password,
-    setPassword,
-  ] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState("");
 
 
-  const [
-    loading,
-    setLoading,
-  ] = useState(false);
-
-
-  const [
-    error,
-    setError,
-  ] = useState("");
-
-
-  async function handleSubmit(
-    event
-  ) {
+  async function handleSubmit(event) {
 
     event.preventDefault();
 
@@ -52,32 +25,18 @@ export default function StaffLogin({
 
     try {
 
-      const result =
-        await api.login(
-          email,
-          password
-        );
-
-
-      api.setAuthToken(
-        result.access_token
-      );
-
-
-      onLogin(
-        result.staff
-      );
+      const result = await api.login(email, password);
+      api.setAuthToken(result.access_token);
+      onLogin(result.staff);
 
     } catch (err) {
-
-      setError(
-        err.message
-      );
+      
+      setError(err.message);
 
     } finally {
 
+      
       setLoading(false);
-
     }
   }
 
@@ -103,9 +62,7 @@ export default function StaffLogin({
       >
 
         <div className="brand-mark">
-          <LockKeyhole
-            size={20}
-          />
+          <LockKeyhole size={20}/>
         </div>
 
         <div>
@@ -114,11 +71,7 @@ export default function StaffLogin({
             Staff only
           </span>
 
-          <h2
-            style={{
-              margin: "4px 0 0",
-            }}
-          >
+          <h2 style={{margin: "4px 0 0"}}>
             Staff Login
           </h2>
 
@@ -127,15 +80,8 @@ export default function StaffLogin({
       </div>
 
 
-      <p
-        style={{
-          marginBottom: "24px",
-          opacity: 0.75,
-        }}
-      >
-        Sign in to access bookings,
-        guest information, room inventory,
-        and service requests.
+      <p style={{marginBottom: "24px", opacity: 0.75}}>
+        Sign in to access bookings, guest information, room inventory, and service requests.
       </p>
 
 
@@ -144,9 +90,7 @@ export default function StaffLogin({
 
           <div
             className="error-banner"
-            style={{
-              marginBottom: "16px",
-            }}
+            style={{marginBottom: "16px"}}
           >
             {error}
           </div>
@@ -178,35 +122,22 @@ export default function StaffLogin({
 
           <input
             type="email"
-            value={
-              email
-            }
-            onChange={
-              (event) =>
-                setEmail(
-                  event.target.value
-                )
-            }
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
             required
             autoComplete="username"
             style={{
               padding: "12px 14px",
               borderRadius: "10px",
-              border:
-                "1px solid #d7d7df",
-              fontSize: "15px",
+              border: "1px solid #d7d7df",
+              fontSize: "15px"
             }}
           />
 
         </label>
 
 
-        <label
-          style={{
-            display: "grid",
-            gap: "7px",
-          }}
-        >
+        <label style={{display: "grid", gap: "7px"}}>
 
           <span>
             Password
@@ -214,23 +145,14 @@ export default function StaffLogin({
 
           <input
             type="password"
-            value={
-              password
-            }
-            onChange={
-              (event) =>
-                setPassword(
-                  event.target.value
-                )
-            }
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             required
-            autoComplete=
-              "current-password"
+            autoComplete="current-password"
             style={{
               padding: "12px 14px",
               borderRadius: "10px",
-              border:
-                "1px solid #d7d7df",
+              border: "1px solid #d7d7df",
               fontSize: "15px",
             }}
           />
@@ -240,21 +162,12 @@ export default function StaffLogin({
 
         <button
           type="submit"
-          className=
-            "request-action-button"
-          disabled={
-            loading
-          }
-          style={{
-            padding: "12px 16px",
-          }}
+          className= "request-action-button"
+          disabled={loading}
+          style={{padding: "12px 16px"}}
         >
 
-          {
-            loading
-              ? "Signing in..."
-              : "Sign in"
-          }
+          {loading ? "Signing in..." : "Sign in"}
 
         </button>
 
