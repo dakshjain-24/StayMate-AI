@@ -1,5 +1,8 @@
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Settings(BaseSettings):
@@ -9,10 +12,7 @@ class Settings(BaseSettings):
 
 
     # DATABASE
-    database_url: str = (
-        "postgresql+psycopg://"
-        "staymate:staymate@localhost:5432/staymate"
-    )
+    database_url: str = "postgresql+psycopg://staymate:StayMateTest123@localhost:5432/staymate"
 
 
     # GEMINI
