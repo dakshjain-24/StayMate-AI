@@ -208,37 +208,6 @@ The script reports:
 
 Expand `evaluation/cases.json` before quoting numbers on your resume. A larger manually-reviewed set is more defensible than a tiny demo set.
 
-## API endpoints
+## Author
 
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/chat` | Talk to the AI receptionist |
-| `GET` | `/api/dashboard/stats` | Dashboard counters |
-| `GET` | `/api/rooms` | Room inventory |
-| `GET` | `/api/bookings` | Booking list |
-| `GET` | `/api/service-requests` | Housekeeping/maintenance queue |
-| `GET` | `/api/health` | Health check |
-
-## Important implementation choices
-
-### The LLM does not write SQL
-
-The model can only call narrow backend tools such as `check_room_availability` or `create_service_request`. Business rules and database writes live in normal Python services.
-
-### RAG is hotel-scoped
-
-Retrieval filters on `hotel_id` before vector similarity ordering. This is a simple foundation for tenant isolation if the project is later expanded to multiple hotels.
-
-### The agent does not pretend actions worked
-
-The system prompt explicitly tells the receptionist not to confirm bookings, cancellations, or service requests unless the corresponding backend tool succeeds.
-
-## Resume-ready project description
-
-**StayMate AI — Agentic Hotel Operations Assistant | LangGraph, LangChain, FastAPI, React.js, PostgreSQL**
-
-- Developed an agentic AI hotel receptionist capable of handling room availability checks, booking operations, hotel FAQs, housekeeping requests, and maintenance issues through structured tool calling and automated workflow execution.
-- Implemented a LangGraph-based orchestration workflow with intent-based routing, conversational state management, and Retrieval-Augmented Generation (RAG) over hotel policies, amenities, menus, and FAQs to generate context-aware and grounded responses.
-- Built a React.js staff dashboard integrated with a FastAPI backend and PostgreSQL database to manage bookings, room inventory, guest interactions, housekeeping tasks, maintenance requests, and hotel service operations.
-
-Do not add evaluation percentages to your resume until you have run the expanded evaluation set yourself.
+Daksh Jain
