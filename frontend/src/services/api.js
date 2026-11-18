@@ -1,59 +1,35 @@
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "http://localhost:8000/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 
-const TOKEN_KEY =
-  "staymate_staff_token";
+const TOKEN_KEY = "staymate_staff_token";
 
 
 function getAuthToken() {
-  return sessionStorage.getItem(
-    TOKEN_KEY
-  );
+  return sessionStorage.getItem(TOKEN_KEY);
 }
 
 
 function setAuthToken(token) {
-  sessionStorage.setItem(
-    TOKEN_KEY,
-    token
-  );
+  sessionStorage.setItem(TOKEN_KEY, token);
 }
 
 
 function clearAuthToken() {
-  sessionStorage.removeItem(
-    TOKEN_KEY
-  );
+  sessionStorage.removeItem(TOKEN_KEY);
 }
 
 
-async function request(
-  path,
-  options = {}
-) {
+async function request(path, options = {}) {
 
-  const token =
-    getAuthToken();
-
+  const token = getAuthToken();
 
   const response = await fetch(
     `${API_URL}${path}`,
     {
       ...options,
-
       headers: {
-        "Content-Type":
-          "application/json",
-
-        ...(token
-          ? {
-              Authorization:
-                `Bearer ${token}`,
-            }
-          : {}),
-
+        "Content-Type": "application/json",
+        ...(token ? {Authorization: `Bearer ${token}`,} : {}),
         ...(options.headers || {}),
       },
     }
@@ -62,38 +38,24 @@ async function request(
 
   if (!response.ok) {
 
-    let message =
-      "Something went wrong";
+    let message = "Something went wrong";
 
 
     try {
-
-      const body =
-        await response.json();
-
-      message =
-        body.detail ||
-        message;
-
-    } catch {
-      // Keep generic message.
+      const body = await response.json();
+      message = body.detail || message;
+    } 
+    catch {
+      // generic message.
     }
 
 
-    if (
-      response.status === 401
-      &&
-      path !== "/auth/login"
-    ) {
+    if (response.status === 401 && path !== "/auth/login") {
       clearAuthToken();
     }
 
-
-    throw new Error(
-      message
-    );
+    throw new Error(message);
   }
-
 
   return response.json();
 }
@@ -102,16 +64,10 @@ async function request(
 export const api = {
 
   getAuthToken,
-
   setAuthToken,
-
   clearAuthToken,
 
-
-  chat(
-    message,
-    threadId
-  ) {
+  chat(message, threadId) {
 
     return request(
       "/chat",
@@ -121,8 +77,7 @@ export const api = {
         body: JSON.stringify(
           {
             message,
-            thread_id:
-              threadId,
+            thread_id: threadId,
             hotel_id: 1,
           }
         ),
@@ -131,10 +86,7 @@ export const api = {
   },
 
 
-  login(
-    email,
-    password
-  ) {
+  login(email, password) {
 
     return request(
       "/auth/login",
@@ -153,55 +105,37 @@ export const api = {
 
 
   me() {
-    return request(
-      "/auth/me"
-    );
+    return request("/auth/me");
   },
 
 
   stats() {
-    return request(
-      "/dashboard/stats"
-    );
+    return request("/dashboard/stats");
   },
 
 
   rooms() {
-    return request(
-      "/rooms"
-    );
+    return request("/rooms");
   },
 
 
   bookings() {
-    return request(
-      "/bookings"
-    );
+    return request("/bookings");
   },
 
 
   serviceRequests() {
-    return request(
-      "/service-requests"
-    );
+    return request("/service-requests");
   },
 
 
-  updateServiceRequestStatus(
-    requestId,
-    status
-  ) {
+  updateServiceRequestStatus(requestId, status) {
 
     return request(
       `/service-requests/${requestId}/status`,
       {
         method: "PATCH",
-
-        body: JSON.stringify(
-          {
-            status,
-          }
-        ),
+        body: JSON.stringify({status,}),
       }
     );
   },
